@@ -10,7 +10,7 @@ import java.util.stream.*;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-class Result {
+class Result3 {
 
     /*
      * Complete the 'isBalanced' function below.
