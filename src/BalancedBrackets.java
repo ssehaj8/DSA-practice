@@ -25,17 +25,16 @@ class Result{
 
         for (char ch : s.toCharArray()) {
             if (ch == '(' || ch == '[' || ch == '{') {
-                stack.push(ch);  // Push opening brackets onto the stack
+                stack.push(ch);
             } else {
                 if (stack.isEmpty()) {
-                    return "NO";  // If stack is empty but closing bracket is found, it's unbalanced
+                    return "NO";
                 }
-                char top = stack.pop();  // Pop the top of the stack
-                // Check if the closing bracket matches the top of the stack
+                char top = stack.pop();
                 if ((ch == ')' && top != '(') ||
                         (ch == ']' && top != '[') ||
                         (ch == '}' && top != '{')) {
-                    return "NO";  // If the match fails, return "NO"
+                    return "NO";
                 }
             }
         }
