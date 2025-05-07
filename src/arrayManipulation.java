@@ -4,7 +4,11 @@ import java.security.*;
 import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.function.*;
 import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 class Result {
 
@@ -19,6 +23,25 @@ class Result {
 
     public static long arrayManipulation(int n, List<List<Integer>> queries) {
         // Write your code here
+        long[] arr = new long[n+2];
+        for(int i=0; i<queries.size(); i++){
+            int firstIndex = queries.get(i).get(0);
+            int lastIndex = queries.get(i).get(1);
+            int elementToAdd = queries.get(i).get(2);
+
+            arr[firstIndex] += elementToAdd;
+            arr[lastIndex+1] -= elementToAdd;
+        }
+
+        long sum = arr[0];
+        long max = Integer.MIN_VALUE;
+
+        for(int i=1; i< n+1; i++){
+            sum += arr[i];
+            max = Math.max(max, sum);
+        }
+        return max;
+
 
     }
 
@@ -37,18 +60,17 @@ public class arrayManipulation {
 
         List<List<Integer>> queries = new ArrayList<>();
 
-        for (int i = 0; i < m; i++) {
-            String[] queriesRowTempItems = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
-
-            List<Integer> queriesRowItems = new ArrayList<>();
-
-            for (int j = 0; j < 3; j++) {
-                int queriesItem = Integer.parseInt(queriesRowTempItems[j]);
-                queriesRowItems.add(queriesItem);
+        IntStream.range(0, m).forEach(i -> {
+            try {
+                queries.add(
+                        Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                                .map(Integer::parseInt)
+                                .collect(toList())
+                );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
-
-            queries.add(queriesRowItems);
-        }
+        });
 
         long result = Result.arrayManipulation(n, queries);
 
@@ -59,4 +81,3 @@ public class arrayManipulation {
         bufferedWriter.close();
     }
 }
-
